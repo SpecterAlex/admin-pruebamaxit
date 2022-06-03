@@ -45,6 +45,7 @@
                     },
                     "configurations": {
                         "production": {
+                            "assets": [ "src/web.config" ],
                             "fileReplacements": [
                                 {
                                     "replace": "src/environments/environment.ts",
