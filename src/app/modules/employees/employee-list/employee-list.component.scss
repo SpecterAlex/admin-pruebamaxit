@@ -1,0 +1,19 @@
+.table-actions {
+  white-space: nowrap;
+
+  .table-action {
+      display: inline-block;
+      margin-left: 20px;
+      cursor: pointer;
+  }
+}
+
+.fa-edit {
+  color: rgb(192, 83, 43);
+  fill: rgb(192, 83, 43);
+}
+
+.fa-trash-alt {
+  color: red;
+  fill: red;
+}

@@ -1,0 +1,39 @@
+<section class="h-100">
+    <div class="container h-100">
+        <div class="row justify-content-sm-center h-100">
+            <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-7 col-sm-9">
+                <div class="card shadow-lg">
+                    <div class="card-body p-5">
+                        <h1 class="fs-4 card-title fw-bold mb-4">Login</h1>
+                        <form [formGroup]="loginForm" (ngSubmit)="onLoginFormClick()" class="mb-5">
+                            <!-- Email input -->
+                            <div class="form-outline mb-4">
+                                <input type="email" id="email" class="form-control" formControlName="email"/>
+                                <label class="form-label" for="email">Correo Electrónico</label>
+                                <div class="errors" *ngIf="email.invalid && email.touched">
+                                    <small *ngIf="email.errors.required" class="form-text-invalid">
+                                        Campo requerido.
+                                    </small>
+                                </div>
+                            </div>
+
+                            <!-- Password input -->
+                            <div class="form-outline mb-4">
+                                <input type="password" id="password" class="form-control password-input" formControlName="password"/>
+                                <label class="form-label" for="password">Password</label>
+                                <div class="errors" *ngIf="password.invalid && password.touched">
+                                    <small *ngIf="password.errors.required" class="form-text-invalid">
+                                        Campo requerido.
+                                    </small>
+                                </div>
+                            </div>
+
+                            <!-- Submit button -->
+                            <button type="submit" class="btn btn-primary btn-block mb-4">Ingresar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

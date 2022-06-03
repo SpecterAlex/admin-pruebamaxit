@@ -1,0 +1,14 @@
+.nav-item {
+  &.active  {
+      .nav-link {
+        border-bottom:1px solid orangered;
+        color: white;
+      }
+  }
+}
+a {
+  &.active  {
+    border-bottom:1px solid orangered;
+    color: white;
+  }
+}

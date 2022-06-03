@@ -1,0 +1,66 @@
+<div class="employee-list">
+  <div class="card mb-3">
+    <div class="card-body">
+      <div class="row">
+        <div class="d-grid col-6">
+          <button type="button" class="btn btn-lg btn-custom" routerLink="../create/">Crear</button>
+        </div>
+        <div class="d-grid col-6">
+          <button type="button" class="btn btn-lg btn-custom" (click)="onRefreshList()">Actualizar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <app-no-info *ngIf="employees.length == 0"></app-no-info>
+
+  <ng-container *ngIf="employees.length > 0">
+
+    <h3>Listado de empleados</h3>
+
+    <table class="table mt-3">
+      <thead class="table-dark">
+        <tr>
+          <th>Nombre</th>
+          <th>Fecha Nacimiento</th>
+          <th>Numero de Empleado</th>
+          <th>Curp</th>
+          <th>Ssn</th>
+          <th>Telefono</th>
+          <th>Nacionalidad</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let employee of employees">
+          <tr>
+            <td>{{ employee.fullName }}</td>
+            <td>{{ employee.birthDate | date:'dd/MM/YYYY' }} </td>
+            <td>{{ employee.employeeNumber }} </td>
+            <td>{{ employee.curp }} </td>
+            <td>{{ employee.ssn }} </td>
+            <td>{{ employee.phoneNumber }} </td>
+            <td>{{ employee.country.name }} </td>
+            <td class="table-actions">
+              <div class="table-action">
+                <i class="fas fa-edit" [routerLink]="['../update/' + employee.employeeId]" data-bs-toggle="tooltip"
+                  data-bs-placement="bottom" title="Editar empleado"></i>
+              </div>
+              <div class="table-action">
+                <i class="fas fa-trash-alt" (click)="onRemoveEmployee(employee.employeeId)" data-bs-toggle="tooltip"
+                  data-bs-placement="bottom" title="Eliminar empleado"></i>
+              </div>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </ng-container>
+
+
+
+
+
+
+
+</div>

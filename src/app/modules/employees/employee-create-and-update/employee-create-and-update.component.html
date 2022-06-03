@@ -1,0 +1,273 @@
+<div class="employee-create-and-update">
+  <div class="page-title">
+    <i class="page-btn-back fas fa-chevron-left" (click)="onBackClick()"></i>
+    <span class="btn-text">
+      {{ employeeId.value ? "Editar " : "Registrar " }} empleado
+    </span>
+  </div>
+  <form [formGroup]="employeeForm" (ngSubmit)="onEmployeeFormSubmit()">
+    <div class="row no-gutters mt-3">
+      <div class="col-12 col-md-9 col-lg-9 col-xl-9">
+        <div class="card">
+          <div class="card-title">
+            Datos personales
+          </div>
+          <div class="row">
+            <div class="col-4 mb-3">
+              <label for="firstName" class="form-label">Nombre</label>
+              <input type="text" class="form-control" formControlName="firstName" id="firstName">
+              <div class="errors" *ngIf="firstName.invalid && firstName.touched">
+                <small *ngIf="firstName.errors.required" class="form-text-invalid">
+                  Campo requerido.
+                </small>
+              </div>
+            </div>
+            <div class="col-4 mb-3">
+              <label for="lastName" class="form-label">Apellidos</label>
+              <input type="text" class="form-control" formControlName="lastName" id="lastName">
+              <div class="errors" *ngIf="lastName.invalid && lastName.touched">
+                <small *ngIf="lastName.errors.required" class="form-text-invalid">
+                  Campo requerido.
+                </small>
+              </div>
+            </div>
+            <div class="col-4 mb-3">
+              <label for="birthDate" class="form-label">Fecha de nacimiento</label>
+              <input type="date" class="form-control" formControlName="birthDate" id="birthDate">
+              <div class="errors" *ngIf="birthDate.invalid && birthDate.touched">
+                <small *ngIf="birthDate.errors.required" class="form-text-invalid">
+                  Campo requerido.
+                </small>
+                <small *ngIf="!birthDate.errors.required && birthDate.errors.invalidDate" class="form-text-invalid">
+                  No es mayor de edad
+                </small>
+              </div>
+            </div>
+            <div class="col-4 mb-3">
+              <label for="employeeNumber" class="form-label">Numero de Empleado</label>
+              <input type="text" class="form-control" formControlName="employeeNumber" id="employeeNumber">
+              <div class="errors" *ngIf="employeeNumber.invalid && employeeNumber.touched">
+                <small *ngIf="employeeNumber.errors.required" class="form-text-invalid">
+                  Campo requerido.
+                </small>
+              </div>
+            </div>
+            <div class="col-4 mb-3">
+              <label for="curp" class="form-label">Curp</label>
+              <input type="text" class="form-control" formControlName="curp" id="curp" maxlength="18">
+              <div class="errors" *ngIf="curp.invalid && curp.touched">
+                <small *ngIf="curp.errors.required" class="form-text-invalid">
+                  Campo requerido.
+                </small>
+                <small *ngIf="!curp.errors.required && curp.errors.pattern" class="form-text-invalid">
+                  Formato de Curp Invalido.
+                </small>
+              </div>
+            </div>
+            <div class="col-4 mb-3">
+              <label for="ssn" class="form-label">SSN</label>
+              <input type="text" class="form-control" formControlName="ssn" id="ssn" maxlength="13">
+              <div class="errors" *ngIf="ssn.invalid && ssn.touched">
+                <small *ngIf="ssn.errors.required" class="form-text-invalid">
+                  Campo requerido.
+                </small>
+                <small *ngIf="!ssn.errors.pattern && ssn.errors.minlength" class="form-text-invalid">
+                  Longitud Invalida mínimo {{ ssn.errors.minlength.requiredLength }} caracteres.
+                </small>
+                <small *ngIf="!ssn.errors.pattern && ssn.errors.maxlength " class="form-text-invalid">
+                  Longitud Invalida máximo {{ ssn.errors.maxlength.requiredLength }} caracteres.
+                </small>
+              </div>
+            </div>
+            <div class="col-4 mb-3">
+              <label for="phoneNumber" class="form-label">Telefono</label>
+              <input type="text" class="form-control" formControlName="phoneNumber" id="phoneNumber" maxlength="10">
+              <div class="errors" *ngIf="phoneNumber.invalid && phoneNumber.touched">
+                <small *ngIf="phoneNumber.errors.required" class="form-text-invalid">
+                  Campo requerido.
+                </small>
+                <small *ngIf="!phoneNumber.errors.required && phoneNumber.errors.pattern" class="form-text-invalid">
+                  Solo se permiten caracteres numéricos.
+                </small>
+                <small *ngIf="!phoneNumber.errors.pattern && phoneNumber.errors.minlength" class="form-text-invalid">
+                  Longitud Invalida mínimo {{ phoneNumber.errors.minlength.requiredLength }} caracteres.
+                </small>
+                <small *ngIf="!phoneNumber.errors.pattern && phoneNumber.errors.maxlength " class="form-text-invalid">
+                  Longitud Invalida máximo {{ phoneNumber.errors.maxlength.requiredLength }} caracteres.
+                </small>
+
+              </div>
+            </div>
+            <div class="col-8 mb-3">
+              <label for="country" class="form-label">Nacionalidad</label>
+              <select class="form-select" id="countryId" formControlName="countryId">
+                <option *ngFor="let country of countries " [value]="country.countryId">
+                  {{ country.name }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="card mt-3">
+          <div class="card-title">
+            Beneficiarios
+          </div>
+          <div class="row">
+            <div class="d-grid col-12 mt-3">
+              <button type="button" class="btn btn-lg btn-primary" (click)="onAddBeneficiary()">
+                Agregar Beneficiario
+              </button>
+            </div>
+            <div class="col-12">
+              <ng-container formArrayName="beneficiaries"
+                *ngFor="let beneficiary of beneficiaries.controls; let i = index">
+                <div *ngIf="!beneficiary.get('deleted').value" class="row" [formGroupName]="i">
+                  <div class="col-4 mb-3">
+                    <label for="firstName" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" formControlName="firstName" [id]="'firstName-' + i">
+                    <div class="errors"
+                      *ngIf="beneficiary.get('firstName').invalid && beneficiary.get('firstName').touched">
+                      <small *ngIf="beneficiary.get('firstName').errors.required" class="form-text-invalid">
+                        Campo requerido.
+                      </small>
+                    </div>
+                  </div>
+                  <div class="col-4 mb-3">
+                    <label for="lastName" class="form-label">Apellidos</label>
+                    <input type="text" class="form-control" formControlName="lastName" [id]="'lastName-' + i">
+                    <div class="errors"
+                      *ngIf="beneficiary.get('lastName').invalid && beneficiary.get('lastName').touched">
+                      <small *ngIf="beneficiary.get('lastName').errors.required" class="form-text-invalid">
+                        Campo requerido.
+                      </small>
+                    </div>
+                  </div>
+                  <div class="col-4 mb-3">
+                    <label for="birthDate" class="form-label">Fecha de nacimiento</label>
+                    <input type="date" class="form-control" formControlName="birthDate" [id]="'birthDate-' + i">
+                    <div class="errors"
+                      *ngIf="beneficiary.get('birthDate').invalid && beneficiary.get('birthDate').touched">
+                      <small *ngIf="beneficiary.get('birthDate').errors.required" class="form-text-invalid">
+                        Campo requerido.
+                      </small>
+                      <small *ngIf="!beneficiary.get('birthDate').errors.required && beneficiary.get('birthDate').errors.invalidDate" class="form-text-invalid">
+                        No es mayor de edad
+                      </small>
+                    </div>
+                  </div>
+                  <div class="col-4 mb-3">
+                    <label for="curp" class="form-label">Curp</label>
+                    <input type="text" class="form-control" formControlName="curp" maxlength="18" [id]="'curp-' + i">
+                    <div class="errors" *ngIf="beneficiary.get('curp').invalid && beneficiary.get('curp').touched">
+                      <small *ngIf="beneficiary.get('curp').errors.required" class="form-text-invalid">
+                        Campo requerido.
+                      </small>
+                      <small *ngIf="!beneficiary.get('curp').errors.required && beneficiary.get('curp').errors.pattern"
+                        class="form-text-invalid">
+                        Formato de Curp Invalido.
+                      </small>
+                    </div>
+                  </div>
+                  <div class="col-4 mb-3">
+                    <label for="ssn" class="form-label">SSN</label>
+                    <input type="text" class="form-control" formControlName="ssn" maxlength="13" [id]="'ssn-' + i">
+                    <div class="errors" *ngIf="beneficiary.get('ssn').invalid && beneficiary.get('ssn').touched">
+                      <small *ngIf="beneficiary.get('ssn').errors.required" class="form-text-invalid">
+                        Campo requerido.
+                      </small>
+                      <small *ngIf="!beneficiary.get('ssn').errors.pattern && beneficiary.get('ssn').errors.minlength"
+                        class="form-text-invalid">
+                        Longitud Invalida mínimo {{ beneficiary.get('ssn').errors.minlength.requiredLength }}
+                        caracteres.
+                      </small>
+                      <small *ngIf="!beneficiary.get('ssn').errors.pattern && beneficiary.get('ssn').errors.maxlength "
+                        class="form-text-invalid">
+                        Longitud Invalida máximo {{ beneficiary.get('ssn').errors.maxlength.requiredLength }}
+                        caracteres.
+                      </small>
+                    </div>
+                  </div>
+                  <div class="col-4 mb-3">
+                    <label for="phoneNumber" class="form-label">Telefono</label>
+                    <input type="text" class="form-control" formControlName="phoneNumber" maxlength="10"
+                      [id]="'phoneNumber-' + i">
+                    <div class="errors"
+                      *ngIf="beneficiary.get('phoneNumber').invalid && beneficiary.get('phoneNumber').touched">
+                      <small *ngIf="beneficiary.get('phoneNumber').errors.required" class="form-text-invalid">
+                        Campo requerido.
+                      </small>
+                      <small
+                        *ngIf="!beneficiary.get('phoneNumber').errors.required && beneficiary.get('phoneNumber').errors.pattern"
+                        class="form-text-invalid">
+                        Solo se permiten caracteres numéricos.
+                      </small>
+                      <small
+                        *ngIf="!beneficiary.get('phoneNumber').errors.pattern && beneficiary.get('phoneNumber').errors.minlength"
+                        class="form-text-invalid">
+                        Longitud Invalida mínimo {{ beneficiary.get('phoneNumber').errors.minlength.requiredLength }}
+                        caracteres.
+                      </small>
+                      <small
+                        *ngIf="!beneficiary.get('phoneNumber').errors.pattern && beneficiary.get('phoneNumber').errors.maxlength "
+                        class="form-text-invalid">
+                        Longitud Invalida máximo {{ beneficiary.get('phoneNumber').errors.maxlength.requiredLength }}
+                        caracteres.
+                      </small>
+                    </div>
+                  </div>
+                  <div class="col-8 mb-3">
+                    <label for="country" class="form-label">Nacionalidad</label>
+                    <select class="form-select" formControlName="countryId" [id]="'countryId-' + i">
+                      <option *ngFor="let country of countries " [value]="country.countryId">
+                        {{ country.name }}
+                      </option>
+                    </select>
+                    <div class="errors"
+                      *ngIf="beneficiary.get('countryId').invalid && beneficiary.get('countryId').touched">
+                      <small *ngIf="beneficiary.get('countryId').errors.required" class="form-text-invalid">
+                        Campo requerido.
+                      </small>
+                    </div>
+                  </div>
+                  <div class="col-4 mb-3">
+                    <label for="participationPercent" class="form-label">Porcentaje</label>
+                    <input type="text" class="form-control" formControlName="participationPercent" [id]="'participationPercent-' + i">
+                    <div class="errors"
+                      *ngIf="beneficiary.get('participationPercent').invalid && beneficiary.get('participationPercent').touched">
+                      <small *ngIf="beneficiary.get('participationPercent').errors.required" class="form-text-invalid">
+                        Campo requerido.
+                      </small>
+                    </div>
+                  </div>
+                  <div class="col-6 col-sm-6 col-md-1">
+                    <button type="button" class="btn btn-danger btn-delete-row" (click)="onRemoveBeneficiaryList(beneficiary,i)">
+                      <i class="fas fa-trash-alt"></i>
+                    </button>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-3 col-lg-3 col-xl-3 card-button">
+        <div class="card">
+          <div class="row">
+            <div class="d-grid col-12">
+              <button type="submit" class="btn btn-lg btn-custom">
+                <span class="btn-text">{{employeeId.value ? "Actualizar" : "Registrar"}}</span>
+              </button>
+            </div>
+
+            <div class="d-grid col-12 mt-3">
+              <button type="button" class="btn btn-lg btn-custom-orange" (click)="onBackClick()">
+                Cancelar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </form>
+</div>

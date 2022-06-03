@@ -1,0 +1,45 @@
+.btn-custom {
+  background: black;
+  color: white;
+  font-size: 20px;
+  border-bottom: 2px solid orangered;
+
+  &:hover{
+    background: rgb(199, 89, 49);
+    color: white;
+    border-bottom: none;
+  }
+
+  &:focus {
+    background: rgb(199, 89, 49);
+    color: white;
+    border-bottom: none;
+    box-shadow: 0 0 0 0.25rem rgb(226 87 37 / 25%);
+  }
+}
+
+.btn-custom-orange {
+  background: orangered;
+  color: white;
+  font-size: 20px;
+  border-bottom: 2px solid black;
+
+  &:hover{
+    background:black;
+    color: white;
+    border-bottom: none;
+  }
+
+  &:focus {
+    background: black;
+    color: white;
+    border-bottom: none;
+    box-shadow: 0 0 0 0.25rem rgb(226 87 37 / 25%);
+  }
+}
+
+.form-label {
+  font-size: 14px;
+  margin-bottom: 0;
+  color:rgb(84, 81, 81);
+}
